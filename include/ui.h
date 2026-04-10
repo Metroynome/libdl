@@ -91,6 +91,7 @@ enum UiElementType
 {
     UI_ELEMENT_MENU = -1,
     UI_ELEMENT_BUTTON = 0,
+    UI_ELEMENT_SELECT = 2,
     UI_ELEMENT_NUMBER_SELECT = 8,
     UI_ELEMENT_TEXT = 10,
 };
@@ -137,6 +138,39 @@ typedef struct UiButtonElement
     int PAD_5C;
     /* 60 */
 } UiButtonElement_t;
+
+typedef struct UiSelectElement
+{
+    UiElement_t Element;
+    int UNK_10;
+    int Id;
+    char Name[64];
+    void* VTable;
+    int SelectId;
+    int ChoicesCount;
+    /* 68 */
+    char Choices[64][0x50];
+    char UNK_1400[0x40];
+    int Loop;
+    int Value;
+    int LastValue;
+} UiSelectElement_t;
+
+typedef struct UiNumberSelectElement
+{
+    UiElement_t Element;
+    int UNK_10;
+    int Id;
+    char Name[64];
+    void* VTable;
+    int SelectId;
+    int Value;
+    int LastValue;
+    int StartValue;
+    int EndValue;
+    int Increment;
+    /* 78 */
+} UiNumberSelectElement_t;
 
 typedef struct UiMenu
 {
