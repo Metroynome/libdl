@@ -557,6 +557,15 @@ void gameScoreboardSetTeamScore(int teamId, int score);
 void gameScoreboardAddTeam(int teamId, int isLocal);
 
 /*
+ * NAME :    gameScoreboardSetScoreMax
+ * 
+ * DESCRIPTION :
+ *       Sets the scoreboard's max value.
+ * 
+ */
+void gameScoreboardSetScoreMax(int max);
+
+/*
  * NAME :    gameGetWorldId
  * 
  * DESCRIPTION :
