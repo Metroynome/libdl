@@ -19,6 +19,18 @@
 #include "gamesettings.h"
 #include "common.h"
 
+//--------------------------------------------------------
+enum GAME_END_REASON
+{
+	GAME_END_REASON_TIME_LIMIT_REACHED = 1,
+	GAME_END_REASON_TARGET_KILLS_REACHED = 2,
+	GAME_END_REASON_TARGET_BOLTS_REACHED = 4,
+	GAME_END_REASON_TARGET_FLAG_CAPS_REACHED = 5,
+	GAME_END_REASON_TARGET_NODE_CAPS_REACHED = 6,
+	GAME_END_REASON_TARGET_HILL_TIME_REACHED = 7,
+	GAME_END_REASON_SURVIVOR_ALL_DEAD = 8,
+	GAME_END_REASON_ALL_OPPONENTS_LEFT = 9,
+};
 
 //--------------------------------------------------------
 typedef struct PlayerGameStats
