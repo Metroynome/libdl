@@ -16,8 +16,15 @@
 enum CollisionFlags
 {
   COLLISION_FLAG_IGNORE_NONE = 0,
-  COLLISION_FLAG_IGNORE_STATIC = (1 << 0),
-  COLLISION_FLAG_IGNORE_DYNAMIC = (1 << 1),
+  COLLISION_FLAG_IGNORE_NONDAMAGEABLE = (1 << 0), // ignore terrain and non-damageable mobys (MOBY_MODE_BIT_CAN_BE_DAMAGED)
+  COLLISION_FLAG_IGNORE_MOBY_SPECIAL_COLLIDERS = (1 << 1), // ignore player colliders, moby primitive colliders, and mobys with coll surfaces & 0x10
+  COLLISION_FLAG_IGNORE_MOBY_USE_ALT_PRIMITIVE = (1 << 2), // toggles primitive 'type' used in collision testing
+  COLLISION_FLAG_IGNORE_MOBY_NONDAMAGEABLE = (1 << 3), // ignore mobys without MOBY_MODE_BIT_CAN_BE_DAMAGED
+  COLLISION_FLAG_INCLUDE_SURFACE_10 = (1 << 4), // include surfaces with bit 0x10 set
+  COLLISION_FLAG_IGNORE_SURFACE = (1 << 5), // ignore arbitrary surface id if packed into bits 8-11 (only seems to work on 0xE and 0xF)
+  COLLISION_FLAG_IGNORE_SURFACE_80 = (1 << 7), // ignore surfaces with bit 0x80 set
+  COLLISION_FLAG_INCLUDE_BACKFACE = (1 << 12), // include backfacing faces
+  COLLISION_FLAG_IGNORE_MOBY_MESH = (1 << 13), // ignore mobys with mesh colliders
 };
 
 enum CollisionSurfaceIds
