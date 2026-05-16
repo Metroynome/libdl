@@ -1,150 +1,105 @@
 /***************************************************
- * FILENAME :    random.h
- * 
+ * FILENAME :		random.h
  * DESCRIPTION :
- *     
- *     
- * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
+ * AUTHOR :			Troy "Metroynome" Pruitt
  */
 
 #ifndef _LIBDL_RANDOM_H_
 #define _LIBDL_RANDOM_H_
 
 #include <tamtypes.h>
+#include "math.h"
+#include "math3d.h"
+
+#define RANDOM_SEED ((u32*)0x0021dc80)
 
 /*
- * NAME :    rand
- * 
+ * NAME :		randSeed
  * DESCRIPTION :
- *       
- * 
+ *              Returns a random seed.
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-int rand(int mod);
+u32 randSeed(void);
 
 /*
- * NAME :    randVector
- * 
+ * NAME :		rand
  * DESCRIPTION :
- *       Returns a vector where the first three components are between +- unitLen.
- * 
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-u128 randVector(float unitLen);
+int rand(int max);
 
 /*
- * NAME :    randVectorRangeNeg
- * 
+ * NAME :		randVector
  * DESCRIPTION :
- *       Returns a vector where the first three components are between [min, max] or [-min, -max]
- * 
+ * 			    Returns a vector where the first three components are between +- unitLen.
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-u128 randVectorRangeNeg(float min, float max);
+// u128 randVector(float unitLen);
 
 /*
- * NAME :    randVectorRange
- * 
+ * NAME :		randVectorRangeNeg
  * DESCRIPTION :
- *       Returns a vector where the first three components are between [min, max]
- * 
+ * 			    Returns a vector where the first three components are between [min, max] or [-min, -max]
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-u128 randVectorRange(float min, float max);
+// u128 randVectorRangeNeg(float min, float max);
 
 /*
- * NAME :    randRange
- * 
+ * NAME :		randVectorRange
  * DESCRIPTION :
- *       
- * 
+ * 			    Returns a vector where the first three components are between [min, max]
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-float randRange(float min, float max);
+void randVectorRange(VECTOR output, float min, float max);
 
 /*
- * NAME :    randRangeNeg
- * 
+ * NAME :		randRangeFloat
  * DESCRIPTION :
- *       Returns a value between [min, max] or [-min, -max]
- * 
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-float randRangeNeg(float min, float max);
+float randRangeFloat(float min, float max);
 
 /*
- * NAME :    randRangeInt
- * 
+ * NAME :		randRangeFloatNeg
  * DESCRIPTION :
- *       Returns a value between [min, max]
- * 
+ * 			Returns a value between [min, max] or [-min, -max]
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
+ */
+float randRangeFloatNeg(float min, float max);
+
+/*
+ * NAME :		randRangeInt
+ * DESCRIPTION :
+ * 			    Returns a value between [min, max]
+ * NOTES :
+ * ARGS : 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
 int randRangeInt(int min, int max);
 
 /*
- * NAME :    randRangeInt
- * 
+ * NAME :		randRot
  * DESCRIPTION :
- *       Returns a value between [min, max]
- * 
  * NOTES :
- * 
  * ARGS : 
- * 
- * RETURN :
- * 
+ * RETURN :     Troy "Metroynome" Pruitt
  */
-float randRadian(void);
+float randRot(void);
 
-/*
- * NAME :    randSeed
- * 
- * DESCRIPTION :
- *       
- * 
- * NOTES :
- * 
- * ARGS : 
- * 
- * RETURN :
- * 
- */
-void randSeed(int seed);
+void randSphere(VECTOR output, float min, float max);
 
 #endif // _LIBDL_RANDOM_H_
