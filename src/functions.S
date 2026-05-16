@@ -377,19 +377,6 @@ FUNCTION(CollLine_Fix, 0x004b7e50)
 FUNCTION(CollMovingSphere, 0x005038d0)
 
 #--------------------------------------------------------
-#------------------------ RANDOM ------------------------
-#--------------------------------------------------------
-FUNCTION(rand, 0x005006d0)
-FUNCTION(randVector, 0x00508340)
-FUNCTION(randVectorRangeNeg, 0x005083c8)
-FUNCTION(randVectorRange, 0x00508448)
-FUNCTION(randRange, 0x00500748)
-FUNCTION(randRangeNeg, 0x005007a0)
-FUNCTION(randRangeInt, 0x00500700)
-FUNCTION(randRadian, 0x00500800)
-FUNCTION(randSeed, 0x001633c0)
-
-#--------------------------------------------------------
 #------------------------- HUD --------------------------
 #--------------------------------------------------------
 FUNCTION(internal_hudGetCanvas_inGame, 0x0053f988)
