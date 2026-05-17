@@ -78,7 +78,7 @@ typedef struct Guber { // 0x18
 	/* 0x08 */ int State;
 	/* 0x0c */ struct Guber *pNext;
 	/* 0x10 */ struct Guber *pPrev;
-	/* 0x14 */ void* vtable;
+	/* 0x14 */ struct GuberVTable* vtable;
 } Guber;
 
 typedef struct GuberMoby {

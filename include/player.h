@@ -1426,40 +1426,34 @@ typedef struct Hero { // 0x2fe0
 typedef Hero Player;
 
 typedef void (*PlayerUpdate_func)(Player * player);
+typedef int (*GetMoby_Func)(Player *player);
+typedef void (*HandleEvent_Func)(Player *player, GuberEvent *event);
+typedef bool (*FriendlyToTeam_Func)(Player *player, int team);
+typedef int (*GetTeam_Func)(Player *player);
+typedef int (*GetVehicleMoby_Func)(Player *player);
+typedef int (*GetSlot_Func)(Player *player);
 typedef void (*PlayerUpdateState_func)(Player * player, int stateId, int bTransAnim, int bForce, int bFall);
 
-/*
- * NAME :    PlayerVTable
- * 
- * DESCRIPTION :
- * 
- * 
- * NOTES :
- * 
- * ARGS : 
- * 
- * RETURN :
- * 
- * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
- */
-typedef struct PlayerVTable
-{
-    
-    void * FUNC_04;
+typedef struct PlayerVTable {
+    int pad[2];
     void * FUNC_08;
     PlayerUpdate_func Update;
-    void * FUNC_10;
-    void * FUNC_14;
-    void * FUNC_18;
-    void * FUNC_1C;
-    void * FUNC_20;
-    void * FUNC_24;
-    void * FUNC_28;
+    GetMoby_Func GetMoby;
+	HandleEvent_Func HandleEvent;
+	int pad_18;
+	FriendlyToTeam_Func FriendlyToTeam;
+	void * FUNC_20;
+	GetTeam_Func GetTeam;
+	void * FUNC_28;
     void * FUNC_2C;
     void * FUNC_30;
     void * FUNC_34;
     void * FUNC_38;
-    PlayerUpdateState_func UpdateState;
+    PlayerUpdateState_func InitBodyState;
+	void * FUNC_40;
+	void * FUJNC_44;
+	GetVehicleMoby_Func GetVehicleMoby;
+	getSlot_Func GetSlot; // uses returns player->LocalHero.slot
 } PlayerVTable;
 
 
