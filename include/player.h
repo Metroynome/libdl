@@ -16,7 +16,7 @@
 
 #include "math.h"
 #include "weapon.h"
-#include "Moby.h"
+#include "moby.h"
 #include "pad.h"
 #include "team.h"
 #include "math3d.h"
