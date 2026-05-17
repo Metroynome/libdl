@@ -769,7 +769,7 @@ typedef void (*PlayerUpdateState_func)(Player * player, int stateId, int bTransA
  */
 typedef struct PlayerVTable
 {
-    void * FUNC_00;
+    
     void * FUNC_04;
     void * FUNC_08;
     PlayerUpdate_func Update;
