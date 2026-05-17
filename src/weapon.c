@@ -113,3 +113,18 @@ float weaponGetDamage(int weaponId, int level)
     }
 }
 
+int GB_GetActivePostFXMod(GadgetBox* gb, int rootID)
+{
+    if (rootID < 0)
+        rootID = 0;
+    else if (rootID > 0x1F)
+        rootID = 0x1F;
+
+    return gb->gadgets[rootID].modActivePostFX.ID;
+}
+
+int GB_GetActiveWeaponMod(GadgetBox* gb, int rootID)
+{
+    GB_GetActivePostFXMod(gb, rootID);
+    return gb->gadgets[rootID].modActiveWeapon.ID;
+}

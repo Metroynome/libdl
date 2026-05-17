@@ -18,67 +18,103 @@
 #include "math3d.h"
 #include "moby.h"
 
-/*
- *
- */
-struct tNW_GadgetEventMessage
-{
-  /*   0 */ short int GadgetId;
-  /*   2 */ char PlayerIndex;
-  /*   3 */ char GadgetEventType;
-  /*   4 */ char ExtraData;
-  /*   8 */ int ActiveTime;
-  /*   c */ unsigned int TargetUID;
-  /*  10 */ float FiringLoc[3];
-  /*  1c */ float TargetDir[3];
+typedef enum {
+	MOD_BSC_UNDEFINED = 0,
+	MOD_BSC_SPEED = 1,
+	MOD_BSC_AMMO = 2,
+	MOD_BSC_AIMING = 3,
+	MOD_BSC_IMPACT = 4,
+	MOD_BSC_AREA = 5,
+	MOD_BSC_XP = 6,
+	MOD_BSC_JACKPOT = 7,
+	MOD_BSC_NANOLEECH = 8,
+	TOTAL_BASIC_MODS = 9,
+	TOTAL_MOD_BSC_DEFS_SIZE = 9
+} eModBasicType;
+
+typedef enum {
+	MOD_PFX_UNDEFINED = 0,
+	MOD_PFX_NAPALM = 1,
+	MOD_PFX_ELECTRICDOOM = 2,
+	MOD_PFX_FREEZING = 3,
+	MOD_PFX_BOMBLETS = 4,
+	MOD_PFX_MORPHING = 5,
+	MOD_PFX_INFECTION = 6,
+	MOD_PFX_PLAGUE = 7,
+	MOD_PFX_SHOCK = 8,
+	TOTAL_POSTFX_MODS = 9,
+	TOTAL_MOD_PFX_DEFS_SIZE = 9
+} eModPostFXType;
+
+typedef enum {
+	MOD_WPN_UNDEFINED = 0,
+	MOD_WPN_ROCKET_GUIDANCE = 1,
+	MOD_WPN_SHOTGUN_WIDTH = 2,
+	MOD_WPN_SHOTGUN_LENGTH = 3,
+	MOD_WPN_GRENADE_MANUALDET = 4,
+	MOD_WPN_MACHGUN_BEAM = 5,
+	MOD_WPN_SNIPER_PIERCING = 6,
+	TOTAL_WPN_MODS = 7,
+	TOTAL_MOD_WPN_DEFS_SIZE = 7
+} eModWeaponType;
+
+struct ModBasicEntry { // 0x4
+	/* 0x0 */ eModBasicType ID;
 };
 
-/*
- *
- */
-typedef struct GadgetEvent
-{
-  /*   0 */ unsigned char gadgetID;
-  /*   1 */ unsigned char cPlayerIndex;
-  /*   2 */ char cGadgetType;
-  /*   3 */ char gadgetEventType;
-  /*   4 */ int iActiveTime;
-  /*   8 */ unsigned int targetUID;
-  /*  10 */ VECTOR targetOffsetQuat;
-  /*  20 */ struct GadgetEvent* pNextGadgetEvent;
-  /*  24 */ struct tNW_GadgetEventMessage gadgetEventMsg;
+struct ModPostFXEntry { // 0x4
+	/* 0x0 */ eModPostFXType ID;
+};
+
+struct ModWeaponEntry { // 0x4
+	/* 0x0 */ eModWeaponType ID;
+};
+
+struct tNW_GadgetEventMessage { // 0x28
+	/* 0x00 */ short int gadgetId;
+	/* 0x02 */ char playerIndex;
+	/* 0x03 */ char gadgetEventType;
+	/* 0x04 */ char extraData;
+	/* 0x08 */ int activeTime;
+	/* 0x0c */ unsigned int targetUID;
+	/* 0x10 */ vec3 firingLoc;
+	/* 0x1c */ vec3 targetDir;
+};
+
+typedef struct GadgetEvent { // 0x50
+	/* 0x00 */ unsigned char gadgetID;
+	/* 0x01 */ unsigned char cPlayerIndex;
+	/* 0x02 */ char cGadgetType;
+	/* 0x03 */ char gadgetEventType;
+	/* 0x04 */ int iActiveTime;
+	/* 0x08 */ unsigned int targetUID;
+	/* 0x10 */ vec4 targetOffsetQuat;
+	/* 0x20 */ struct GadgetEvent *pNextGadgetEvent;
+	/* 0x24 */ struct tNW_GadgetEventMessage gadgetEventMsg;
 } GadgetEvent;
 
-/*
- *
- */
-typedef struct GadgetEntry
-{
-    short Level;
-    short Ammo;
-    int Experience;
-    int GameTimeLastShot;
-    int OmegaMod;
-    int UNK_10;
-    int AlphaMods[10];
-    char UNK_3C[0x08];
+typedef struct GadgetEntry { // 0x44
+	/* 0x00 */ short int level;
+	/* 0x02 */ short int sAmmo;
+	/* 0x04 */ unsigned int sXP;
+	/* 0x08 */ int iActionFrame;
+	/* 0x0c */ struct ModPostFXEntry modActivePostFX;
+	/* 0x10 */ struct ModWeaponEntry modActiveWeapon;
+	/* 0x14 */ struct ModBasicEntry modActiveBasic[10];
+	/* 0x3c */ struct ModWeaponEntry modWeapon[2];
 } GadgetEntry;
 
-/*
- *
- */
-typedef struct GadgetBox
-{
-  /*   0 */ char Initialized;
-  /*   1 */ char Level;
-  /*   2 */ char bButtonDown[10];
-  /*   c */ short int ButtonUpFrames[10];
-  /*  20 */ char NumGadgetEvents;
-  /*  21 */ char ModBasic[8];
-  /*  2a */ short int ModPostFX;
-  /*  2c */ struct GadgetEvent* NextGadgetEvent;
-  /*  30 */ struct GadgetEvent GadgetEventSlots[32];
-  /* a30 */ struct GadgetEntry Gadgets[32];
+typedef struct GadgetBox { // 0x12b0
+	/* 0x0000 */ char initialized;
+	/* 0x0001 */ char level;
+	/* 0x0002 */ char bButtonDown[10];
+	/* 0x000c */ short int sButtonUpFrames[10];
+	/* 0x0020 */ char cNumGadgetEvents;
+	/* 0x0021 */ char modBasic[8];
+	/* 0x002a */ short int modPostFX;
+	/* 0x002c */ GadgetEvent *pNextGadgetEvent;
+	/* 0x0030 */ GadgetEvent gadgetEventSlots[32];
+	/* 0x0a30 */ GadgetEntry gadgets[32];
 } GadgetBox;
 
 /*
@@ -450,5 +486,9 @@ void weaponMobyUpdateBangles(Moby* weaponMoby, int weaponId, int level);
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
 struct GadgetDef* weaponGetDef(int weaponId, int type);
+
+
+int GB_GetActivePostFXMod(GadgetBox* gb, int rootID);
+int GB_GetActiveWeaponMod(GadgetBox* gb, int rootID);
 
 #endif // _LIBDL_WEAPON_H_
