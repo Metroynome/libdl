@@ -13,22 +13,24 @@
 #include "math3d.h"
 #include "common.h"
 
-/*
- * NAME :    SpawnPoint
- * 
- * DESCRIPTION :
- *       
- * 
- * NOTES :
- * 
- * 
- * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
- */
-typedef struct SpawnPoint
-{
-    MATRIX M0;
-    MATRIX M1;
-} SpawnPoint;
+#define SPAWNPOINTS ((Cuboid*)(*(u32*)0x00222820))
+#define SP_COUNT (*(int*)0x00222824)
+#define SP_HILL_PTR (*(u32*)0x00222698)
+
+
+typedef struct Cuboid { // 0x80
+	/* 0x00 */ mtx3 matrix;
+	/* 0x30 */ VECTOR pos;
+	/* 0x40 */ mtx3 imatrix;
+	/* 0x70 */ VECTOR rot;
+} Cuboid;
+
+typedef struct Path { // 0x10
+	/* 0x0 */ int nNodes;
+	/* 0x4 */ int bPathNormalized;
+	/* 0x8 */ char pad[8];
+	/* 0x10 */ VECTOR nodes[0];
+} Path_t;
 
 /*
  * NAME :    spawnPointGetCount
@@ -140,7 +142,7 @@ int spawnPointIsPlayer(int index);
  * 
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
-__LIBDL_GETTER__ SpawnPoint * spawnPointGet(int index);
+__LIBDL_GETTER__ Cuboid * spawnPointGet(int index);
 
 /*
  * NAME :    spawnPointSet
@@ -156,7 +158,7 @@ __LIBDL_GETTER__ SpawnPoint * spawnPointGet(int index);
  * 
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
-__LIBDL_SETTER__ void spawnPointSet(SpawnPoint * sp, int index);
+__LIBDL_SETTER__ void spawnPointSet(Cuboid * sp, int index);
 
 /*
  * NAME :    spawnPointIsPointInside
@@ -172,6 +174,6 @@ __LIBDL_SETTER__ void spawnPointSet(SpawnPoint * sp, int index);
  * 
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
-int spawnPointIsPointInside(SpawnPoint* sp, VECTOR point, VECTOR outDt);
+int spawnPointIsPointInside(Cuboid* sp, VECTOR point, VECTOR outDt);
 
 #endif // _LIBDL_SPAWNPOINT_H_

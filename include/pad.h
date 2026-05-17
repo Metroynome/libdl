@@ -48,65 +48,89 @@
 #define PAD_L2              0x0100
 
 
-struct PAD {
-  /*   0 */ u128 pad_buf[16];
-  /* 100 */ float analog[16];
-  /* 140 */ float hudAnalog[16];
-  /* 180 */ unsigned char profile[4];
-  /* 184 */ unsigned char vib_profile[4];
-  /* 188 */ unsigned char act_direct[4];
-  /* 18c */ short int invalidTimer;
-  /* 18e */ short int ringIndex;
-  /* 190 */ int ringValidSize;
-  /* 194 */ int socket;
-  /* 198 */ int phase;
-  /* 19c */ int state;
-  /* 1a0 */ int bits;
-  /* 1a4 */ int bitsOn;
-  /* 1a8 */ int bitsOff;
-  /* 1ac */ int bitsPrev;
-  /* 1b0 */ int digitalBits;
-  /* 1b4 */ int digitalBitsOn;
-  /* 1b8 */ int digitalBitsOff;
-  /* 1bc */ int digitalBitsPrev;
-  /* 1c0 */ int hudBits;
-  /* 1c4 */ int hudBitsOn;
-  /* 1c8 */ int hudBitsOff;
-  /* 1cc */ int hudDivert;
-  /* 1d0 */ int handsOff;
-  /* 1d4 */ int handsOffStick;
-  /* 1d8 */ int useAnalog;
-  /* 1dc */ int term_id;
-  /* 1e0 */ int bitsOnRing[30];
-  /* 258 */ float analogAngRing[30];
-  /* 2d0 */ float analogMagRing[30];
-  /* 348 */ int unmaskedBits;
-  /* 34c */ int lagIndex;
-  /* 350 */ int lagValidSize;
-  /* 354 */ int bits_Lagged[7];
-  /* 370 */ int digitalBits_Lagged[7];
-  /* 38c */ float analog_Lagged[7][16];
-  /* 54c */ u8 port;
-  /* 54d */ u8 repeatDelay;
-  /* 54e */ u8 repeatSpeed;
-  /* 54f */ u8 repeatCounter;
-  /* 550 */ u8 multi_tap_connected;
-  /* 551 */ u8 disconnected;
-  /* 552 */ unsigned char act_align[6];
-  /* 558 */ u8 slot;
-  /* 559 */ char initialized;
-  /* 55c */ int rterm_id;
-  /* 560 */ int id;
-  /* 564 */ int exid;
-  /* 568 */ int lagFrames;
-  /* 56c */ void* RawPadInputCallback;
-  /* 570 */ void* pCallbackData;
-  /* 574 */ unsigned char rdata[32];
-  /* 594 */ int ipad[10];
-};
+typedef struct PAD { // 0x5c0
+	union {
+	/* 0x000 */ u128 pad_buf[16];
+			struct {
+				unsigned char ok;
+				unsigned char mode;
+				unsigned short btns;
+				// joysticks
+				unsigned char rjoy_h;
+				unsigned char rjoy_v;
+				unsigned char ljoy_h;
+				unsigned char ljoy_v;
+				// pressure mode
+				unsigned char right_p;
+				unsigned char left_p;
+				unsigned char up_p;
+				unsigned char down_p;
+				unsigned char triangle_p;
+				unsigned char circle_p;
+				unsigned char cross_p;
+				unsigned char square_p;
+				unsigned char l1_p;
+				unsigned char r1_p;
+				unsigned char l2_p;
+				unsigned char r2_p;
+			} buffer;
+	};
+	/* 0x100 */ float analog[16];
+	/* 0x140 */ float hudAnalog[16];
+	/* 0x180 */ unsigned char profile[4];
+	/* 0x184 */ unsigned char vib_profile[4];
+	/* 0x188 */ unsigned char act_direct[4];
+	/* 0x18c */ short int invalidTimer;
+	/* 0x18e */ short int ringIndex;
+	/* 0x190 */ int ringValidSize;
+	/* 0x194 */ int socket;
+	/* 0x198 */ int phase;
+	/* 0x19c */ int state;
+	/* 0x1a0 */ int bits;
+	/* 0x1a4 */ int bitsOn;
+	/* 0x1a8 */ int bitsOff;
+	/* 0x1ac */ int bitsPrev;
+	/* 0x1b0 */ int digitalBits;
+	/* 0x1b4 */ int digitalBitsOn;
+	/* 0x1b8 */ int digitalBitsOff;
+	/* 0x1bc */ int digitalBitsPrev;
+	/* 0x1c0 */ int hudBits;
+	/* 0x1c4 */ int hudBitsOn;
+	/* 0x1c8 */ int hudBitsOff;
+	/* 0x1cc */ int hudDivert;
+	/* 0x1d0 */ int handsOff;
+	/* 0x1d4 */ int handsOffStick;
+	/* 0x1d8 */ int useAnalog;
+	/* 0x1dc */ int term_id;
+	/* 0x1e0 */ int bitsOnRing[30];
+	/* 0x258 */ float analogAngRing[30];
+	/* 0x2d0 */ float analogMagRing[30];
+	/* 0x348 */ int unmaskedBits;
+	/* 0x34c */ int lagIndex;
+	/* 0x350 */ int lagValidSize;
+	/* 0x354 */ int bits_Lagged[7];
+	/* 0x370 */ int digitalBits_Lagged[7];
+	/* 0x38c */ float analog_Lagged[7][16];
+	/* 0x54c */ u8 port;
+	/* 0x54d */ u8 repeatDelay;
+	/* 0x54e */ u8 repeatSpeed;
+	/* 0x54f */ u8 repeatCounter;
+	/* 0x550 */ u8 multi_tap_connected;
+	/* 0x551 */ u8 disconnected;
+	/* 0x552 */ u8 act_align[6];
+	/* 0x558 */ u8 slot;
+	/* 0x559 */ char initialized;
+	/* 0x55c */ int rterm_id;
+	/* 0x560 */ int id;
+	/* 0x564 */ int exid;
+	/* 0x568 */ int lagFrames;
+	/* 0x56c */ void *RawPadInputCallback;
+	/* 0x570 */ void *pCallbackData;
+	/* 0x574 */ u8 rdata[32];
+	/* 0x594 */ int ipad[10];
+} PAD;
 
-typedef struct padButtonStatus
-{
+typedef struct padButtonStatus {
     unsigned char ok;
     unsigned char mode;
     unsigned short btns;
@@ -130,8 +154,7 @@ typedef struct padButtonStatus
     unsigned char r2_p;
 } PadButtonStatus;
 
-typedef struct PadHistory
-{
+typedef struct PadHistory {
     u16 btns;
     u8 rjoy_h;
     u8 rjoy_v;
@@ -139,6 +162,24 @@ typedef struct PadHistory
     u8 ljoy_v;
     short id;
 } PadHistory;
+
+struct pad_frame { // 0x2
+	/* 0x0 */ unsigned char data[2];
+};
+
+typedef struct PadStream { // 0x1e0
+	/* 0x000 */ short unsigned int button_bits[4];
+	/* 0x008 */ short unsigned int analog_stick[4];
+	/* 0x010 */ short unsigned int right_analog_stick[4];
+	/* 0x018:0 */ unsigned char frames_with_btn_diffs : 4;
+	/* 0x019 */ unsigned char btn_bit_diffs[32];
+	/* 0x03c */ int cur_btn_bit_offset;
+	/* 0x040 */ struct pad_frame prev_frame;
+	/* 0x042 */ unsigned char pad_stream_buf[2][200];
+	/* 0x1d4 */ int totalPadStreamBytes;
+	/* 0x1d8 */ int curFrame;
+	/* 0x1dc */ int padStreamReady;
+} PadStream_t;
 
 /*
  * NAME :    padGetButton

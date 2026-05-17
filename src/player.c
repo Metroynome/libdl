@@ -54,21 +54,21 @@ Player * playerGetFromIndex(int idx)
 //--------------------------------------------------------------------------------
 int playerIsValid(Player * player)
 {
-    return player && player->PlayerMoby && player->pNetPlayer && playerIsConnected(player);
+    return player && player->pMoby && player->pNetPlayer && playerIsConnected(player);
 }
 
 //--------------------------------------------------------------------------------
-void playerSetLocalEquipslot(int localPlayerId, int slot, int weaponId)
+void playerSetLocalEquipslot(int localmpIndex, int slot, int weaponId)
 {
     int * equipslots = WEAPON_EQUIPSLOT;
-    equipslots[slot + (localPlayerId * 3)] = weaponId;
+    equipslots[slot + (localmpIndex * 3)] = weaponId;
 }
 
 //--------------------------------------------------------------------------------
-int playerGetLocalEquipslot(int localPlayerId, int slot)
+int playerGetLocalEquipslot(int localmpIndex, int slot)
 {
     int * equipslots = WEAPON_EQUIPSLOT;
-    return equipslots[slot + (localPlayerId * 3)];
+    return equipslots[slot + (localmpIndex * 3)];
 }
 
 //--------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ void playerSetHealth(Player * player, float health)
     if (!player)
         return;
 
-    player->Health = health;
+    player->hitPoints = health;
     if (player->pNetPlayer && player->pNetPlayer->pNetPlayerData)
         player->pNetPlayer->pNetPlayerData->hitPoints = health;
 }
@@ -85,22 +85,22 @@ void playerSetHealth(Player * player, float health)
 //--------------------------------------------------------------------------------
 void playerSetTeam(Player * player, int teamId)
 {
-  if (!player || player->Team == teamId)
+  if (!player || player->mpTeam == teamId)
       return;
 
-  player->Team = teamId;
-  player->PlayerMoby->GlowRGBA = TEAM_COLORS[teamId];
-  player->SkinMoby->ModeBits2 = (player->SkinMoby->ModeBits2 & 0xff) | ((0x80 + (8 * teamId)) << 8);
-  player->SkinMoby->Triggers = 0;
+  player->mpTeam = teamId;
+  player->pMoby->glow_rgba = TEAM_COLORS[teamId];
+  player->pMoby->modeBits2 = (player->pMoby->modeBits2 & 0xff) | ((0x80 + (8 * teamId)) << 8);
+  player->pMoby->triggers = 0;
 
   // update game settings
   GameSettings* gs = gameGetSettings();
   if (gs) {
-    gs->PlayerTeams[player->PlayerId] = teamId;
+    gs->PlayerTeams[player->mpIndex] = teamId;
   }
  
   // move to correct voice channel
-  if (player->IsLocal && player->LocalPlayerIndex == 0) {
+  if (player->isLocal && player->mpIndex == 0) {
     int channel = voiceGetChannel();
     if (channel > 0 && channel != (teamId + 1)) {
       internal_voiceEnableGlobalChat(1);
@@ -141,8 +141,8 @@ PadButtonStatus * playerGetPad(Player * player)
 
     if (playerIsLocal(player))
     {
-        if (!player->Paddata) return 0;
-        return (PadButtonStatus*)((u32)player->Paddata + 0x574);
+        if (!player->pPad) return 0;
+        return (PadButtonStatus*)((u32)player->pPad + 0x574);
     }
     else
     {
@@ -176,7 +176,7 @@ void playerPadUpdate(void)
             if (playerPad)
             {
                 memcpy(padHistory, &playerPad->btns, sizeof(struct PadHistory));
-                padHistory->id = player->PlayerId;
+                padHistory->id = player->mpIndex;
             }
             // Reset pad if no player
             else if (padHistory->id >= 0)
@@ -227,7 +227,7 @@ int playerPadGetButtonDown(Player * player, u16 buttonMask)
         return 0;
 
     return playerPadGetButton(player, buttonMask) &&
-            (PlayerPadHistory[player->PlayerId].btns & buttonMask) != 0;
+            (PlayerPadHistory[player->mpIndex].btns & buttonMask) != 0;
 }
 
 //--------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ int playerPadGetAnyButtonDown(Player * player, u16 buttonMask)
         return 0;
 
     return playerPadGetAnyButton(player, buttonMask) &&
-            (PlayerPadHistory[player->PlayerId].btns & buttonMask) == buttonMask;
+            (PlayerPadHistory[player->mpIndex].btns & buttonMask) == buttonMask;
 }
 
 //--------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ int playerPadGetButtonUp(Player * player, u16 buttonMask)
         return 0;
 
     return !playerPadGetButton(player, buttonMask) &&
-        (PlayerPadHistory[player->PlayerId].btns & buttonMask) == 0;
+        (PlayerPadHistory[player->mpIndex].btns & buttonMask) == 0;
 }
 
 //--------------------------------------------------------------------------------
@@ -257,7 +257,7 @@ int playerPadGetAnyButtonUp(Player * player, u16 buttonMask)
         return 0;
 
     return !playerPadGetAnyButton(player, buttonMask) &&
-        (PlayerPadHistory[player->PlayerId].btns & buttonMask) != buttonMask;
+        (PlayerPadHistory[player->mpIndex].btns & buttonMask) != buttonMask;
 }
 
 //--------------------------------------------------------------------------------
@@ -266,11 +266,11 @@ PlayerVTable* playerGetVTable(Player * player)
     if (!player)
         return NULL;
 
-    return (PlayerVTable*)player->Guber.VTable;
+    return (PlayerVTable*)player->guber.vtable;
 }
 
 //--------------------------------------------------------------------------------
-int playerStateIsDead(int state)
+int stateIsDead(int state)
 {
   return state == PLAYER_STATE_DEATH
         || state == PLAYER_STATE_DROWN
@@ -285,5 +285,5 @@ int playerStateIsDead(int state)
 //--------------------------------------------------------------------------------
 int playerIsDead(Player * player)
 {
-  return playerStateIsDead(player->PlayerState);
+  return stateIsDead(player->state);
 }

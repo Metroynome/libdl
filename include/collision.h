@@ -47,6 +47,35 @@ enum CollisionSurfaceIds
   COLLISION_SURFACE_WALKABLE_4 = 0x0F,
 };
 
+struct COLL_DAM_OUT { // 0x40
+	/* 0x00 */ VECTOR ip;
+	/* 0x10 */ VECTOR momentum;
+	/* 0x20 */ Moby *pDamager;
+	/* 0x24 */ int damageFlags;
+	/* 0x28 */ unsigned char damageClass;
+	/* 0x29 */ unsigned char damageStrength;
+	/* 0x2a */ short unsigned int damageIndex;
+	/* 0x2c */ float damageHp;
+	/* 0x30 */ int flags;
+	/* 0x34 */ float damageHeroHp;
+	/* 0x38 */ int shotUID;
+	/* 0x3c */ Moby *pMoby;
+} COLL_DAM_OUT;
+
+struct COLL_DAM_IN { // 0x30
+	/* 0x00 */ VECTOR momentum;
+	/* 0x10 */ Moby *pMoby;
+	/* 0x14 */ int damageFlags;
+	/* 0x18 */ unsigned char damageClass;
+	/* 0x19 */ unsigned char damageStrength;
+	/* 0x1a */ short unsigned int damageIndex;
+	/* 0x1c */ float damageHp;
+	/* 0x20 */ int flags;
+	/* 0x24 */ float damageHeroHp;
+	/* 0x28 */ int shotUID;
+	/* 0x2c */ int pad[1];
+} COLL_DAM_IN;
+
 /*
  * NAME :    CollMovingSphere
  * 

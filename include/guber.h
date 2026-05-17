@@ -62,24 +62,26 @@ struct GuberVTable
  * 
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
-typedef struct Guber 
-{
-    union
-    {
-        Gid GID;
-        u32 UID;
-    } Id;
+typedef struct Gid { // 0x4
+	/* 0x0:0 */ unsigned int ObjectIndex : 12;
+	/* 0x1:4 */ unsigned int ObjectCount : 12;
+	/* 0x3:0 */ unsigned int ObjectType : 4;
+	/* 0x3:4 */ unsigned int HostId : 4;
+} Gid_t;
 
-    int MasterHostId;
-    int State;
-    struct Guber * Next;
-    struct Guber * Prev;
-    struct GuberVTable * VTable;
-
+typedef struct Guber { // 0x18
+	union { // 0x4
+		/* 0x00 */ unsigned int UID;
+		/* 0x00 */ Gid_t gid;
+	};
+	/* 0x04 */ int MasterHostId;
+	/* 0x08 */ int State;
+	/* 0x0c */ struct Guber *pNext;
+	/* 0x10 */ struct Guber *pPrev;
+	/* 0x14 */ void* vtable;
 } Guber;
 
-typedef struct GuberMoby
-{
+typedef struct GuberMoby {
     Guber Guber;
     Moby * Moby;
     short ModeBits;
@@ -101,8 +103,7 @@ typedef struct GuberMoby
     u8 PADDING_1[2];
 } GuberMoby;
 
-typedef struct NetEvent
-{
+typedef struct NetEvent {
     struct {
         unsigned int EventID : 4;
         unsigned int NetDataSize : 6;
@@ -114,8 +115,7 @@ typedef struct NetEvent
   char NetData[64];
 } NetEvent;
 
-typedef struct GuberEvent
-{
+typedef struct GuberEvent {
     NetEvent NetEvent;
     int NetSendTime;
     int NetSendTo;

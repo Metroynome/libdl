@@ -68,10 +68,10 @@ int cheatsDisableHealthboxes(void)
 
   while (moby < mEnd)
   {
-    if (moby->OClass == MOBY_ID_HEALTH_BOX_MULT || moby->OClass == MOBY_ID_HEALTH_ORB_MULT)
+    if (moby->oClass == MOBY_ID_HEALTH_BOX_MULT || moby->oClass == MOBY_ID_HEALTH_ORB_MULT)
     {
       // move to 0,0,0
-      memset(moby->Position, 0, sizeof(moby->Position));
+      memset(moby->pos, 0, sizeof(moby->pos));
       ++count;
     }
 

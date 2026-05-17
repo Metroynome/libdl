@@ -3,21 +3,6 @@
 #include "spawnpoint.h"
 #include "game.h"
 
-/*
- * Player 1's hud.
- */
-#define SPAWNPOINTS        ((SpawnPoint*)(*(u32*)0x00222820))
-
-/*
- *
- */
-#define SP_COUNT    (*(int*)0x00222824)
-
-/*
- * Player 2's hud.
- */
-#define SP_HILL_PTR          (*(u32*)0x00222698)
-
 int spawnPointGetCount()
 {
     return SP_COUNT;
@@ -72,20 +57,20 @@ int spawnPointIsPlayer(int index)
   return 0;
 }
 
-SpawnPoint * spawnPointGet(int index)
+Cuboid * spawnPointGet(int index)
 {
-    SpawnPoint * spawnPoints = SPAWNPOINTS;
+    Cuboid * spawnPoints = SPAWNPOINTS;
     if (!spawnPoints)
         return NULL;
 
     return &spawnPoints[index];
 }
 
-void spawnPointSet(SpawnPoint * sp, int index)
+void spawnPointSet(Cuboid * sp, int index)
 {
-    SpawnPoint * spawnPoints = SPAWNPOINTS;
+    Cuboid * spawnPoints = SPAWNPOINTS;
     if (!spawnPoints)
         return;
 
-    memcpy(&spawnPoints[index], sp, sizeof(SpawnPoint));
+    memcpy(&spawnPoints[index], sp, sizeof(Cuboid));
 }

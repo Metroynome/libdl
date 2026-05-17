@@ -398,100 +398,156 @@ enum MobyId
     MOBY_ID_BIG_BROWN_CIRCLE_THING_2 = 0x3341,
 };
 
-/*
- * NAME :    Moby
- * 
- * DESCRIPTION :
- *       Contains the moby struct data.
- * 
- * NOTES :
- *          Mobies are objects that can be spawned in game.
- *          This includes things like vehicles, turrets, mod pads, etc
- * 
- * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
- */
-typedef struct Moby
-{
-    VECTOR BSphere;
-    VECTOR Position;
-    char State;
-    u8 Group;
-    char MClass;
-    u8 Opacity;
-    void * PClass;
-    struct Moby * PChain;
-    char CollDamage;
-    char DeathCnt;
-    u16 OcclIndex;
-    char UpdateDist;
-    char Drawn;
-    short DrawDist;
-    u16 ModeBits;
-    u16 ModeBits2;
-    u32 Lights;
-    u32 PrimaryColor;
-    void * AnimSeq;
-    float AnimSeqT;
-    float AnimSpeed;
-    short AnimIScale;
-    short PoseCacheEntryIndex;
-    void * AnimLayers;
-    char AnimSeqId;
-    char AnimFlags;
-    char LSeq;
-    char JointCnt;
-    void * JointCache;
-    void * PManipulator;
-    u32 GlowRGBA;
-    char LodTrans;
-    char LodTrans2;
-    char Metal;
-    char SubState;
-    char PrevState;
-    char StateType;
-    u16 StateTimer;
-    char SoundTrigger;
-    char SoundDesired;
-    short SoundChannel;
-    float Scale;
-    u16 Bangles;
-    char Shadow;
-    char ShadowIndex;
-    float ShadowPlane;
-    float ShadowRange;
-    VECTOR LSphere;
-    union
-    {
-        struct Guber * Guber;
-        struct GuberMoby * GuberMoby;
-        void * NetObject;
-        Gid NetObjectGid;
-    };
-    short UpdateId;
-    short Spad0;
-    int * CollData;
-    int CollActive;
-    u32 CollCnt;
-    char GridMinX;
-    char GridMinY;
-    char GridMaxX;
-    char GridMaxY;
-    void * PUpdate;
-    void * PVar;
-    char Mission;
-    char Pad;
-    short UID;
-    short Bolts;
-    u16 Xp;
-    struct Moby* PParent;
-    short OClass;
-    char Triggers;
-    char StandardDeathCalled;
-    VECTOR M0_03;
-    VECTOR M1_03;
-    VECTOR M2_03;
-    VECTOR Rotation;
+typedef struct Moby { // 0x100
+	/* 0x00 */ VECTOR bSphere;
+	/* 0x10 */ VECTOR pos;
+	/* 0x20 */ char state;
+	/* 0x21 */ unsigned char group;
+	/* 0x22 */ char mClass;
+	/* 0x23 */ char alpha;
+	/* 0x24 */ struct MobyClass *pClass;
+	/* 0x28 */ struct Moby *pChain;
+	/* 0x2c */ char collDamage;
+	/* 0x2d */ signed char deathCnt;
+	/* 0x2e */ short unsigned int occlIndex;
+	/* 0x30 */ char updateDist;
+	/* 0x31 */ char drawn;
+	/* 0x32 */ short int drawDist;
+	/* 0x34 */ short unsigned int modeBits;
+	/* 0x36 */ short unsigned int modeBits2;
+	/* 0x38 */ u32 lights[2];
+	/* 0x40 */ struct MobySeq *animSeq;
+	/* 0x44 */ float animSeqT;
+	/* 0x48 */ float animSpeed;
+	/* 0x4c */ short int animIScale;
+	/* 0x4e */ short int poseCacheEntryIndex;
+	/* 0x50 */ struct MobyAnimLayer *animLayers;
+	/* 0x54 */ char animSeqId;
+	/* 0x55 */ char animFlags;
+	/* 0x56 */ char lSeq;
+	/* 0x57 */ char jointCnt;
+	/* 0x58 */ mtx4 *jointCache;
+	/* 0x5c */ struct Manipulator *pManipulator;
+	/* 0x60 */ int glow_rgba;
+	/* 0x64 */ char lod_trans;
+	/* 0x65 */ char lod_trans2;
+	/* 0x66 */ char metal;
+	/* 0x67 */ char subState;
+	/* 0x68 */ char prevState;
+	/* 0x69 */ char stateType;
+	/* 0x6a */ short unsigned int stateTimer;
+	/* 0x6c */ char soundTrigger;
+	/* 0x6d */ char soundDesired;
+	/* 0x6e */ short int soundChannel;
+	/* 0x70 */ float scale;
+	/* 0x74 */ short unsigned int bangles;
+	/* 0x76 */ char shadow;
+	/* 0x77 */ char shadow_index;
+	/* 0x78 */ float shadow_plane;
+	/* 0x7c */ float shadow_range;
+	/* 0x80 */ VECTOR lSphere;
+	/* 0x90 */ void *netObject;
+	/* 0x94 */ short int updateID;
+	/* 0x96 */ short int spad0;
+	/* 0x98 */ int *collData;
+	/* 0x9c */ int collActive;
+	/* 0xa0 */ unsigned int collCnt;
+	/* 0xa4 */ char grid_min_x;
+	/* 0xa5 */ char grid_min_y;
+	/* 0xa6 */ char grid_max_x;
+	/* 0xa7 */ char grid_max_y;
+	/* 0xa8 */ void *pUpdate;
+	/* 0xac */ void *pVar;
+	/* 0xb0 */ char mission;
+	/* 0xb1 */ char pad;
+	/* 0xb2 */ short int UID;
+	/* 0xb4 */ short int bolts;
+	/* 0xb6 */ short unsigned int xp;
+	/* 0xb8 */ struct Moby *pParent;
+	/* 0xbc */ short int oClass;
+	/* 0xbe */ char triggers;
+	/* 0xbf */ char standarddeathcalled;
+	/* 0xc0 */ mtx3 rMtx;
+	/* 0xf0 */ VECTOR rot;
 } Moby;
+
+struct MobyReactAnim { // 0x20
+	/* 0x00 */ char animType;
+	/* 0x01 */ char startFrame;
+	/* 0x02 */ char endFrame;
+	/* 0x03 */ char cpad;
+	/* 0x04 */ float drag_mps;
+	/* 0x08 */ float xySpeed_mps;
+	/* 0x0c */ float zSpeed_mps;
+	/* 0x10 */ float upGrav_mps;
+	/* 0x14 */ float downGrav_mps;
+	/* 0x18 */ float peakFrame;
+	/* 0x1c */ float landFrame;
+};
+
+struct MoveAnimData { // 0x20
+	/* 0x00 */ char elv_state;
+	/* 0x01 */ char alert_state;
+	/* 0x02 */ char turning;
+	/* 0x03 */ char motivation_state;
+	/* 0x04 */ char motivation_dir;
+	/* 0x05 */ char action_state;
+	/* 0x06 */ char reaction_state;
+	/* 0x07 */ char animGroup;
+	/* 0x08 */ int flags;
+	/* 0x0c */ float linear_rate;
+	/* 0x10 */ float angular_rate;
+	/* 0x14 */ float trigger_frame;
+	/* 0x18 */ int pad[2];
+};
+
+struct MobyAnimInfo { // 0x8
+	/* 0x0 */ struct MobyReactAnim *reactData;
+	/* 0x4 */ struct MoveAnimData *auxData;
+};
+
+struct MobySeq { // 0x20
+	/* 0x00 */ VECTOR bSphere;
+	/* 0x10 */ char frameCnt;
+	/* 0x11 */ signed char sound;
+	/* 0x12 */ char trigsCnt;
+	/* 0x13 */ char pad;
+	/* 0x14 */ short int *trigs;
+	/* 0x18 */ struct MobyAnimInfo *animInfo;
+	/* 0x1c */ void *frameData;
+};
+
+struct MobyClass { // 0x50
+	/* 0x00 */ void *packets;
+	/* 0x04 */ char packet_cnt_0;
+	/* 0x05 */ char packet_cnt_1;
+	/* 0x06 */ char metal_cnt;
+	/* 0x07 */ char metal_ofs;
+	/* 0x08 */ char joint_cnt;
+	/* 0x09 */ char pad;
+	/* 0x0a */ char packet_cnt_2;
+	/* 0x0b */ char team_texs;
+	/* 0x0c */ char seq_cnt;
+	/* 0x0d */ char sound_cnt;
+	/* 0x0e */ char lod_trans;
+	/* 0x0f */ char shadow;
+	/* 0x10 */ short int *collision;
+	/* 0x14 */ void *skeleton;
+	/* 0x18 */ void *common_trans;
+	/* 0x1c */ void *anim_joints;
+	/* 0x20 */ void *gif_usage;
+	/* 0x24 */ float gScale;
+	/* 0x28 */ struct SoundDef *sound_defs;
+	/* 0x2c */ char bangles;
+	/* 0x2d */ char mip_dist;
+	/* 0x2e */ short int corncob;
+	/* 0x30 */ VECTOR bSphere;
+	/* 0x40 */ int glow_rgba;
+	/* 0x44 */ short int mode_bits;
+	/* 0x46 */ char type;
+	/* 0x47 */ char mode_bits2;
+	/* 0x48 */ struct MobySeq *seqs[0];
+};
 
 typedef struct MobyColDamageIn {
     VECTOR Momentum;
@@ -507,6 +563,34 @@ typedef struct MobyColDamageIn {
     int UNK_2C;
 } MobyColDamageIn;
 
+typedef struct MobyAnimLayer { // 0x20
+	/* 0x00 */ struct MobySeq *animSeq;
+	/* 0x04 */ float animSeqT;
+	/* 0x08 */ float animSpeed;
+	/* 0x0c */ short int animIScale;
+	/* 0x0e */ short int poseCacheEntryIndex;
+	/* 0x10 */ struct MobyAnimLayer *nextLayer;
+	/* 0x14 */ char animSeqId;
+	/* 0x15 */ char animFlags;
+	/* 0x16 */ char animJointIndexA;
+	/* 0x17 */ char animJointIndexB;
+	/* 0x18 */ float blendWeight;
+	/* 0x1c */ float blendFade;
+} MobyAnimLayer_t;
+
+typedef struct MobyAnimLayerCommon { // 0x20
+	/* 0x00 */ struct MobySeq *animSeq;
+	/* 0x04 */ float animSeqT;
+	/* 0x08 */ float animSpeed;
+	/* 0x0c */ short int animIScale;
+	/* 0x0e */ short int poseCacheEntryIndex;
+	/* 0x10 */ struct MobyAnimLayer *nextLayer;
+	/* 0x14 */ char animSeqId;
+	/* 0x15 */ char animFlags;
+	/* 0x16 */ char pad_b[2];
+	/* 0x18 */ int pad_w[2];
+} MobyAnimLayerCommon_t;
+
 typedef struct MobyColDamage {
     VECTOR Ip;
     VECTOR Momentum;
@@ -521,6 +605,19 @@ typedef struct MobyColDamage {
     int ShotUID;
     Moby* Moby;
 } MobyColDamage;
+
+typedef struct Manipulator { // 0x40
+	/* 0x00 */ char animJoint;
+	/* 0x01 */ char state;
+	/* 0x02 */ signed char scaleOn;
+	/* 0x03 */ char absolute;
+	/* 0x04 */ int jointId;
+	/* 0x08 */ struct Manipulator *pChain;
+	/* 0x0c */ float interp;
+	/* 0x10 */ VECTOR q;
+	/* 0x20 */ VECTOR scale;
+	/* 0x30 */ VECTOR trans;
+} Manipulator_t;
 
 
 enum FlashTypes {

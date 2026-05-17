@@ -35,7 +35,7 @@ u16 * mobyGetLoadedMobyClassList(void)
  */
 int mobyIsDestroyed(Moby* moby)
 {
-    return moby && moby->State <= -2;
+    return moby && moby->state <= -2;
 }
 
 /*
@@ -47,16 +47,16 @@ int mobyGetNumSpawnableMobys(void)
 }
 
 /*
- * Returns a pointer to the next living moby of the given oclass.
+ * Returns a pointer to the next living moby of the given oClass.
  * Returns NULL if none found.
  */
-Moby* mobyFindNextByOClass(Moby* start, int oClass)
+Moby* mobyFindNextByoClass(Moby* start, int oClass)
 {
     Moby* mEnd = mobyListGetEnd();
     
   // find
   if (oClass > 0 && start) {
-    while (start < mEnd && (start->OClass != oClass || mobyIsDestroyed(start)))
+    while (start < mEnd && (start->oClass != oClass || mobyIsDestroyed(start)))
       ++start;
   }
 
@@ -117,17 +117,17 @@ int mobyClassIsLoaded(int oClass)
 /*
  * Computes the world space joint matrix for the given moby's joint.
  */
-void mobyComputeJointWorldMatrix(Moby* moby, int jointIdx, MATRIX out)
+void mobyComputejoinWorldMatrix(Moby* moby, int jointIdx, MATRIX out)
 {
-  if (!moby->JointCache) return;
-  if (jointIdx >= moby->JointCnt) return;
+  if (!moby->jointCache) return;
+  if (jointIdx >= moby->jointCnt) return;
 
-  MATRIX* mtxs = (MATRIX*)moby->JointCache;
+  MATRIX* mtxs = (MATRIX*)moby->jointCache;
   memcpy(out, mtxs[jointIdx], sizeof(MATRIX));
   MATRIX mrot;
   memset(mrot, 0, sizeof(mrot));
-  memcpy(mrot, moby->M0_03, 12);
-  vector_scale(&out[12], &out[12], moby->Scale / 1024.0);
+  memcpy(mrot, moby->rot, 12);
+  vector_scale(&out[12], &out[12], moby->scale / 1024.0);
   matrix_multiply(out, out, mrot);
-  vector_add(&out[12], &out[12], moby->Position);
+  vector_add(&out[12], &out[12], moby->pos);
 }

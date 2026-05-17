@@ -16,4 +16,8 @@
 
 #define SET_NOREORDER       (asm(".set noreorder;"))
 
+#define true 1
+#define false 0
+typedef _Bool bool;
+
 #endif // _LIBDL_COMMON_H_
