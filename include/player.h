@@ -1453,7 +1453,7 @@ typedef struct PlayerVTable {
 	void * FUNC_40;
 	void * FUJNC_44;
 	GetVehicleMoby_Func GetVehicleMoby;
-	getSlot_Func GetSlot; // uses returns player->LocalHero.slot
+	GetSlot_Func GetSlot; // uses returns player->LocalHero.slot
 } PlayerVTable;
 
 
