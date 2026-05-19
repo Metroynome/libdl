@@ -195,7 +195,7 @@ typedef enum PLAYER_TYPE_ENUM {
 } PLAYER_TYPE_ENUM;
 
 typedef struct tNW_GetHitMessage { // 0x10
-	/* 0x0 */ vec3 momentum;
+	/* 0x0 */ vec3f momentum;
 	/* 0xc */ unsigned char sequenceNum;
 	/* 0xd */ signed char hitPlayerIndex;
 	/* 0xe */ signed char frame;
