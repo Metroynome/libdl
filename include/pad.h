@@ -51,29 +51,29 @@
 typedef struct PAD { // 0x5c0
 	union {
 	/* 0x000 */ u128 pad_buf[16];
-			struct {
-				unsigned char ok;
-				unsigned char mode;
-				unsigned short btns;
-				// joysticks
-				unsigned char rjoy_h;
-				unsigned char rjoy_v;
-				unsigned char ljoy_h;
-				unsigned char ljoy_v;
-				// pressure mode
-				unsigned char right_p;
-				unsigned char left_p;
-				unsigned char up_p;
-				unsigned char down_p;
-				unsigned char triangle_p;
-				unsigned char circle_p;
-				unsigned char cross_p;
-				unsigned char square_p;
-				unsigned char l1_p;
-				unsigned char r1_p;
-				unsigned char l2_p;
-				unsigned char r2_p;
-			} buffer;
+		struct {
+			unsigned char ok;
+			unsigned char mode;
+			unsigned short btns;
+			// joysticks
+			unsigned char rjoy_h;
+			unsigned char rjoy_v;
+			unsigned char ljoy_h;
+			unsigned char ljoy_v;
+			// pressure mode
+			unsigned char right_p;
+			unsigned char left_p;
+			unsigned char up_p;
+			unsigned char down_p;
+			unsigned char triangle_p;
+			unsigned char circle_p;
+			unsigned char cross_p;
+			unsigned char square_p;
+			unsigned char l1_p;
+			unsigned char r1_p;
+			unsigned char l2_p;
+			unsigned char r2_p;
+		};
 	};
 	/* 0x100 */ float analog[16];
 	/* 0x140 */ float hudAnalog[16];

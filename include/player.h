@@ -1884,7 +1884,7 @@ __LIBDL_SETTER__ void playerGetSpawnpoint(Player * player, VECTOR outPos, VECTOR
  * 
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
-__LIBDL_GETTER__ PadButtonStatus * playerGetPad(Player * player);
+__LIBDL_GETTER__ PAD * playerGetPad(Player * player);
 
 /*
  * NAME :    playerPadGetButton

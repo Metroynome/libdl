@@ -19,6 +19,10 @@
 #include "gamesettings.h"
 #include "common.h"
 
+#define gameMode ((gameMode_t)(*(int*)0x0021dfb4))
+#define gameType (*(int*)0x0021e694)
+#define Settings (*(LocalGameSettings_t*)0x00171d38)
+
 //--------------------------------------------------------
 enum GAME_END_REASON
 {
@@ -31,6 +35,54 @@ enum GAME_END_REASON
 	GAME_END_REASON_SURVIVOR_ALL_DEAD = 8,
 	GAME_END_REASON_ALL_OPPONENTS_LEFT = 9,
 };
+
+typedef enum {
+	GAME_MODE_NONE = -2,
+	GAME_MODE_DEBUG = -1,
+	GAME_MODE_NORMAL = 0,
+	GAME_MODE_MOVIE = 1,
+	GAME_MODE_SCENE = 2,
+	GAME_MODE_PAUSE = 3,
+	GAME_MODE_FREEZE = 4,
+	GAME_MODE_VENDOR = 5,
+	GAME_MODE_SPACE = 6,
+	GAME_MODE_PUZZLE = 7,
+	GAME_MODE_WEAPON_UPGRADE = 8,
+	GAME_MODE_CREDITS = 9,
+	GAME_MODE_LOBBY = 10,
+	GAME_MODE_FLYBY = 11,
+	GAME_MODE_THERMAL = 12,
+	GAME_MODE_PRE_LOBBY_MEMCARD_LOAD = 13,
+	GAME_MODE_PRE_LOBBY = 14,
+	GAME_MODE_WAIT_FOR_MPSTART = 15,
+	GAME_MODE_EXEC_MP_MEMCARD_COMMAND = 16,
+	GAME_MODE_IOP_DEBUG = 17,
+	GAME_MODE_MAX = 18
+} gameMode_t;
+
+typedef struct LocalGameSettings { // 0xc4
+	/* 0x00 */ int PalMode;
+	/* 0x04 */ char HelpVoiceOn;
+	/* 0x05 */ char HelpTextOn;
+	/* 0x06 */ char SubtitlesActive;
+	/* 0x08 */ int Stereo;
+	/* 0x0c */ int MusicVolume;
+	/* 0x10 */ int EffectsVolume;
+	/* 0x14 */ int VoVolume;
+	/* 0x18 */ int CameraElevationDir[3][4];
+	/* 0x48 */ int CameraAzimuthDir[3][4];
+	/* 0x78 */ int CameraRotateSpeed[3][4];
+	/* 0xa8 */ unsigned char FirstPersonModeOn[10];
+	/* 0xb2 */ char _was_NTSCProgessive;
+	/* 0xb3 */ char Wide;
+	/* 0xb4 */ char ControllerVibrationOn[8];
+	/* 0xbc */ char QuickSelectPauseOn;
+	/* 0xbd */ char Language;
+	/* 0xbe */ char AuxSetting2;
+	/* 0xbf */ char AuxSetting3;
+	/* 0xc0 */ char AuxSetting4;
+	/* 0xc1 */ char AutoSaveOn;
+} LocalGameSettings_t;
 
 //--------------------------------------------------------
 typedef struct PlayerGameStats

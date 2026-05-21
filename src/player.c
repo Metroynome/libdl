@@ -134,15 +134,14 @@ void playerSetPosRot(Player * player, VECTOR p, VECTOR r)
 }
 
 //--------------------------------------------------------------------------------
-PadButtonStatus * playerGetPad(Player * player)
+PAD * playerGetPad(Player * player)
 {
     if (!player)
         return 0;
 
-    if (playerIsLocal(player))
-    {
+    if (player->isLocal) {
         if (!player->pPad) return 0;
-        return (PadButtonStatus*)((u32)player->pPad + 0x574);
+        return (PAD*)player->pPad;
     }
     else
     {
@@ -150,7 +149,7 @@ PadButtonStatus * playerGetPad(Player * player)
         if (!netPlayer)
             return 0;
 
-        return (PadButtonStatus*)(netPlayer->padMessageElems[0].msg.pad_data);
+        return (PAD*)(netPlayer->padMessageElems[0].msg.pad_data);
     }
 }
 
@@ -158,7 +157,7 @@ PadButtonStatus * playerGetPad(Player * player)
 void playerPadUpdate(void)
 {
     int i;
-    PadButtonStatus * playerPad;
+    PAD * playerPad;
     struct PadHistory * padHistory;
     Player ** players = playerGetAll();
     Player * player;
@@ -200,7 +199,7 @@ int playerPadGetButton(Player * player, u16 buttonMask)
     if (!player)
         return 0;
 
-    PadButtonStatus * paddata = playerGetPad(player);
+    PAD * paddata = playerGetPad(player);
     if (!paddata)
         return 0;
 
@@ -213,7 +212,7 @@ int playerPadGetAnyButton(Player * player, u16 buttonMask)
     if (!player)
         return 0;
 
-    PadButtonStatus * paddata = playerGetPad(player);
+    PAD * paddata = playerGetPad(player);
     if (!paddata)
         return 0;
 

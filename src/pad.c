@@ -71,7 +71,7 @@ void padUpdate(void)
   for (i = 0; i < GAME_MAX_LOCALS; ++i) {
     struct PAD* pad = padGetPad(i);
     if (pad) {
-      memcpy(&LocalPadHistory[i], &pad->rdata[2], 6);
+      memcpy(&LocalPadHistory[i], &pad->btns, 6);
     } else {
       memcpy(&LocalPadHistory[i], &DefaultPadHistory, sizeof(PadHistory));
     }
@@ -99,7 +99,7 @@ int padGetButton(int localPlayerIndex, u16 buttonMask)
 {
   struct PAD* pad = padGetPad(localPlayerIndex);
   if (pad) {
-    u16 btns = *(u16*)&pad->rdata[2];
+    u16 btns = *(u16*)&pad->btns;
     return (btns & buttonMask) == 0;
   }
 
@@ -127,7 +127,7 @@ int padGetAnyButton(int localPlayerIndex, u16 buttonMask)
 {
   struct PAD* pad = padGetPad(localPlayerIndex);
   if (pad) {
-    u16 btns = *(u16*)&pad->rdata[2];
+    u16 btns = *(u16*)&pad->btns;
     return (btns & buttonMask) != buttonMask;
   }
 
@@ -262,8 +262,8 @@ void padResetInput(int localPlayerIndex)
     if (!pad) return;
 
     u64 defaultValue = 0x7F7F7F7FFFFF7900;
-    memcpy(&pad->rdata[2], &defaultValue, 8);
-    memcpy((void*)((u32)&pad->rdata[2] + 0x80), &defaultValue, 8);
+    memcpy(&pad, &defaultValue, 8);
+    memcpy((void*)((u32)&pad + 0x80), &defaultValue, 8);
 }
 
 /*
