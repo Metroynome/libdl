@@ -27,7 +27,7 @@
 //--------------------------------------------------------
 typedef float VECTOR[4] __attribute__((__aligned__(16)));
 typedef float vec2[2] __attribute__((__aligned__(16)));
-typedef float vec3[3] __attribute__((__aligned__(16)));
+typedef float vec3[3];
 typedef float vec4[4] __attribute__((__aligned__(16)));
 typedef float MATRIX[16] __attribute__((__aligned__(16)));
 
