@@ -456,7 +456,7 @@ typedef struct Moby { // 0x100
 	/* 0xa5 */ char grid_min_y;
 	/* 0xa6 */ char grid_max_x;
 	/* 0xa7 */ char grid_max_y;
-	/* 0xa8 */ void *pUpdate;
+	/* 0xa8 */ void (*pUpdate)(struct Moby*);
 	/* 0xac */ void *pVar;
 	/* 0xb0 */ char mission;
 	/* 0xb1 */ char pad;
