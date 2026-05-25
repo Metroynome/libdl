@@ -28,8 +28,8 @@
 typedef float VECTOR[4] __attribute__((__aligned__(16)));
 typedef float vec2[2] __attribute__((__aligned__(16)));
 typedef float vec3[3];
-typedef float vec4[4] __attribute__((__aligned__(16)));
 typedef float MATRIX[16] __attribute__((__aligned__(16)));
+typedef VECTOR vec4;
 
 typedef struct vec2f {
 /* 0x0 */ float x;

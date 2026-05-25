@@ -305,7 +305,13 @@ void vector_add(VECTOR output, VECTOR input0, VECTOR input1)
 }
 
 //--------------------------------------------------------
-// void vector_negate(VECTOR output, VECTOR input0);
+void vector_negate(VECTOR output, VECTOR input0)
+{
+    output[0] = -input0[0];
+    output[1] = -input0[1];
+    output[2] = -input0[2];
+    output[3] = input0[3];
+}
 
 //--------------------------------------------------------
 void vector_scale(VECTOR output, VECTOR input0, float scalar)
