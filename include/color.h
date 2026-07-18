@@ -42,10 +42,15 @@
  * AUTHOR :      Daniel "Dnawrkshp" Gerendasy
  */
 u32 colorLerp(u32 a, u32 b, float t);
+u32 FastColorTween(float t, u32 a, u32 b);
+u32 colorLevel99(int alpha, int cycleFrames);
 
 u32 colorScale(u32 color, float scale);
 int colorGetMax(u32 color);
 u32 colorSetChannel(u32 color, int channel, u8 value);
 
 #endif // _LIBDL_COLOR_H_
+
+
+
 

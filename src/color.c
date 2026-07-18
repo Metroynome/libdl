@@ -65,3 +65,46 @@ u32 colorSetChannel(u32 color, int channel, u8 value)
 
   return (color & ~mask) | (value << shift);
 }
+
+u32 FastColorTween(float t, u32 a, u32 b)
+{
+  int ar = a & 0xff;
+  int ag = (a >> 8) & 0xff;
+  int ab = (a >> 16) & 0xff;
+  int aa = (a >> 24) & 0xff;
+  int br = b & 0xff;
+  int bg = (b >> 8) & 0xff;
+  int bb = (b >> 16) & 0xff;
+  int ba = (b >> 24) & 0xff;
+  u32 r = ar + (int)((float)(br - ar) * t);
+  u32 g = ag + (int)((float)(bg - ag) * t);
+  u32 bch = ab + (int)((float)(bb - ab) * t);
+  u32 aCh = aa + (int)((float)(ba - aa) * t);
+
+  return (aCh << 24) | (bch << 16) | (g << 8) | r;
+}
+
+u32 colorLevel99(int alpha, int cycleFrames)
+{
+  if (cycleFrames <= 0) cycleFrames = 150;
+
+  float t = (float)(gameGetTime() % cycleFrames) / (float)cycleFrames;
+  u32 from;
+  u32 to;
+
+  if (t < 0.333) {
+    from = 0x804020;
+    to = 0x208040;
+  } else if (t < 0.667) {
+    from = 0x208040;
+    to = 0x402080;
+    t -= 0.333;
+  } else {
+    from = 0x402080;
+    to = 0x804020;
+    t -= 0.667;
+  }
+
+  return (alpha << 24) | (FastColorTween(t * 3.0, from, to) & 0xffffff);
+}
+
